@@ -1,3 +1,23 @@
+/*******************************************************************************
+ *   (c) 2023 unipackage
+ *
+ *  Licensed under either the MIT License (the "MIT License") or the Apache License, Version 2.0
+ *  (the "Apache License"). You may not use this file except in compliance with one of these
+ *  licenses. You may obtain a copy of the MIT License at
+ *
+ *      https://opensource.org/licenses/MIT
+ *
+ *  Or the Apache License, Version 2.0 at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the MIT License or the Apache License for the specific language governing permissions and
+ *  limitations under the respective licenses.
+ ********************************************************************************/
+
 import { Model, Document, FilterQuery, Connection } from "mongoose"
 import {
     QueryFilter,
@@ -9,6 +29,11 @@ import {
 import { Database, DatabaseOptions } from "../database/index"
 import { Result } from "@unipackage/utils"
 
+/**
+ * MongooseDataStore class implementing the IDataStore interface for MongoDB operations using Mongoose.
+ * @typeparam T - Represents the type of the entity.
+ * @typeparam TDocument - Represents the Mongoose document type for the entity.
+ */
 export class MongooseDataStore<T, TDocument extends T & Document>
     implements IDataStore<T, TDocument>
 {
@@ -16,6 +41,12 @@ export class MongooseDataStore<T, TDocument extends T & Document>
     private database: Database
     private conn: Connection | null = null
 
+    /**
+     * Constructs a MongooseDataStore instance.
+     * @param model - The Mongoose Model for the entity.
+     * @param uri - The MongoDB connection URI.
+     * @param options - Optional database connection options.
+     */
     constructor(
         model: Model<TDocument>,
         uri: string,
@@ -25,6 +56,10 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         this.database = Database.getInstance(uri, options)
     }
 
+    /**
+     * Establishes a connection to the MongoDB database.
+     * @returns A promise resolving with a Result containing the connection or an error.
+     */
     public async connect(): Promise<Result<Connection>> {
         if (!this.conn) {
             const connectionResult = await this.database.connect()
@@ -41,6 +76,10 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         return { ok: true, data: this.conn as Connection }
     }
 
+    /**
+     * Closes the connection to the MongoDB database.
+     * @returns A promise resolving with a Result indicating the success or failure of the operation.
+     */
     public async disconnect(): Promise<Result<void>> {
         try {
             if (this.conn) {
@@ -53,6 +92,11 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Builds a MongoDB filter query based on the provided query filter.
+     * @param queryFilter - The query filter containing conditions, and, or, and not clauses.
+     * @returns A MongoDB FilterQuery based on the provided filter.
+     */
     private buildQuery(queryFilter?: QueryFilter<T>): FilterQuery<T> {
         const { conditions, and, or, not } = queryFilter || {}
 
@@ -101,6 +145,11 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         return query
     }
 
+    /**
+     * Applies sorting options to a query builder.
+     * @param queryBuilder - The query builder to which sorting options are applied.
+     * @param sortOptions - The sorting options to apply.
+     */
     private applySortOptions(
         queryBuilder: ReturnType<Model<TDocument>["find"]>,
         sortOptions?: SortOptions<T>[]
@@ -117,6 +166,11 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Applies fields selection options to a query builder.
+     * @param queryBuilder - The query builder to which fields options are applied.
+     * @param fieldsOptions - The fields options to apply.
+     */
     private applyFieldsOptions(
         queryBuilder: ReturnType<Model<TDocument>["find"]>,
         fieldsOptions?: FieldsOptions<T>
@@ -132,6 +186,11 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Finds entities in the database based on the provided query filter.
+     * @param queryFilter - The query filter for finding entities.
+     * @returns A promise resolving with a Result containing the found entities or an error.
+     */
     public async find(queryFilter?: QueryFilter<T>): Promise<Result<T[]>> {
         try {
             const { page, limit, sort, fields } = queryFilter || {}
@@ -164,6 +223,12 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Updates entities in the database based on the provided query filter and update data.
+     * @param queryFilter - The query filter to find entities for updating.
+     * @param updateData - The partial data to update on the found entities.
+     * @returns A promise resolving with a Result containing the updated entities or an error.
+     */
     public async update(
         queryFilter: QueryFilter<T>,
         updateData: Partial<T>
@@ -186,6 +251,11 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Deletes entities in the database based on the provided query filter.
+     * @param queryFilter - The query filter to find entities for deletion.
+     * @returns A promise resolving with a Result indicating the deletion success or an error.
+     */
     public async delete(queryFilter?: QueryFilter<T>): Promise<Result<T>> {
         try {
             const query = this.buildQuery(queryFilter)
@@ -196,6 +266,10 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Retrieves indexes for the database model.
+     * @returns A promise resolving with a Result containing the model's indexes or an error.
+     */
     public async getIndexes(): Promise<Result<(keyof T)[]>> {
         try {
             const schemaPaths = this.model.schema.paths
@@ -206,6 +280,10 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         }
     }
 
+    /**
+     * Retrieves unique indexes for the database model.
+     * @returns A promise resolving with a Result containing the unique indexes or an error.
+     */
     public async getUniqueIndexes(): Promise<Result<(keyof T)[]>> {
         try {
             const indexes = await this.model.collection.indexes()

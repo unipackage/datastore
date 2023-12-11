@@ -1,3 +1,23 @@
+/*******************************************************************************
+ *   (c) 2023 unipackage
+ *
+ *  Licensed under either the MIT License (the "MIT License") or the Apache License, Version 2.0
+ *  (the "Apache License"). You may not use this file except in compliance with one of these
+ *  licenses. You may obtain a copy of the MIT License at
+ *
+ *      https://opensource.org/licenses/MIT
+ *
+ *  Or the Apache License, Version 2.0 at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the MIT License or the Apache License for the specific language governing permissions and
+ *  limitations under the respective licenses.
+ ********************************************************************************/
+
 import { Result } from "@unipackage/utils"
 import { equal } from "@unipackage/utils"
 import {
@@ -8,10 +28,19 @@ import {
 import { AbstractDatastore } from "./abstract"
 
 export class DataStore<T extends Object, U> extends AbstractDatastore<T, U> {
+    /**
+     * Constructs a DataStore instance.
+     * @param datastore - The IDataStore instance to be used.
+     */
     constructor(datastore: IDataStore<T, U>) {
         super(datastore)
     }
 
+    /**
+     * Creates or updates data in the store based on unique indexes.
+     * @param data - The data to be created or updated.
+     * @returns A Result containing the updated data or an error.
+     */
     public async CreateOrupdateByUniqueIndexes(data: T): Promise<Result<T[]>> {
         try {
             const createResult = await this.create(data)
@@ -66,6 +95,11 @@ export class DataStore<T extends Object, U> extends AbstractDatastore<T, U> {
         }
     }
 
+    /**
+     * Retrieves a query filter based on unique indexes.
+     * @param data - The data used to retrieve the query filter.
+     * @returns A Result containing the query filter or an error.
+     */
     private async getQueryFilterByUniqueIndexes(
         data: T
     ): Promise<Result<QueryFilter<T>>> {
@@ -100,6 +134,13 @@ export class DataStore<T extends Object, U> extends AbstractDatastore<T, U> {
         }
     }
 
+    /**
+     * Determines if an update is necessary based on existing and new data.
+     * @param existingData - The existing data.
+     * @param newData - The new data.
+     * @param fields - Optional fields to consider in the comparison.
+     * @returns A boolean indicating whether an update is necessary.
+     */
     protected shouldUpdate(
         existingData: T,
         newData: T,
