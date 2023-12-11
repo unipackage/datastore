@@ -1,23 +1,12 @@
 #/bin/sh
 source ../common.sh
 
-ACTION_NAME=${1}
-
-BASE_NAME="mongodb"
-IMAGE_TYPE=${2}
-CONTAINER_NAME="${BASE_NAME}_${IMAGE_TYPE}_container"
-IMAGE_NAME="${BASE_NAME}_${IMAGE_TYPE}_image"
-
 function build() {
-    docker build -t ${IMAGE_NAME} "../../../docker/mongo/${IMAGE_TYPE}/"
+    docker build -t ${IMAGE_NAME} "../../../docker/mongodb/${IMAGE_TYPE}/"
 }
 
 function run() {
-if [ "${IMAGE_TYPE}" = "anon" ] ; then
-    docker run -d -p 27017:27017 --name ${CONTAINER_NAME}  ${IMAGE_NAME}
-else
-    docker run -d -p 27018:27017 --name ${CONTAINER_NAME}  ${IMAGE_NAME}
-fi
+    docker run -d -p ${PORT}:27017 --name ${CONTAINER_NAME}  ${IMAGE_NAME}
 }
 
 function execute_action() {
@@ -25,11 +14,8 @@ function execute_action() {
     "build")
         build 
         ;;
-    "delete")
-        delete ${IMAGE_NAME}
-        ;;
     "run")
-        clear ${CONTAINER_NAME} 
+        clear
         run
         ;;
     *)
@@ -39,11 +25,13 @@ function execute_action() {
 }
 
 if [ "$#" -eq 2 ] && \
-( [ "$1" = "build" ] || [ "$1" = "run" ] || \
-[ "$1" = "start" ] || [ "$1" = "stop" ]|| [ "$1" = "restart" ] || [ "$1" = "clear" ]|| [ "$1" = "delete" ]) && \
-( [ "$2" = "anon" ] || [ "$2" = "auth" ] ); then
-    execute_action $1
+( [ "${ACTION_NAME}" = "build" ] || [ "${ACTION_NAME}" = "start" ] || \
+[ "${ACTION_NAME}" = "stop" ] || [ "${ACTION_NAME}" = "restart" ]|| \
+[ "${ACTION_NAME}" = "clear" ] || [ "${ACTION_NAME}" = "delete" ] ) && \
+([ "${IMAGE_TYPE}" = "anon" ] || [ "${IMAGE_TYPE}" = "auth" ] ); then
+    execute_action 
+elif [ "$#" -eq 3 ] && [ "${ACTION_NAME}" = "run" ]; then
+    execute_action 
 else
-    echo "Usage: ./execute.sh [build | run | start | stop | restart | clear | delete] [anon | auth]"
+    echo "Usage: ./execute.sh [build | run | start | stop | restart | clear | delete] [anon | auth] [port(for run)]"
 fi
-

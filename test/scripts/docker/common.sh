@@ -1,39 +1,51 @@
 #/bin/sh
+ACTION_NAME=${1}
+IMAGE_TYPE=${2}
+PORT=${3}
+
+BASE_NAME="mongodb"
+CONTAINER_NAME="${BASE_NAME}_${IMAGE_TYPE}_container"
+IMAGE_NAME="${BASE_NAME}_${IMAGE_TYPE}_image"
+
 function clear() {
-    stop $1
-    docker rm $1
+    stop 
+    docker rm ${CONTAINER_NAME}
 }
 
 function delete() {
-    docker rmi $1
+    echo $IMAGE_NAME
+    docker rmi ${IMAGE_NAME}
 }
 
 function restart() {
-    stop $1
-    start $1
+    stop 
+    start 
 }
 
 function start() {
-    docker start $1
+    docker start ${CONTAINER_NAME}
 }
 
 function stop() {
-    docker stop $1
+    docker stop ${CONTAINER_NAME}
 }
 
 function execute() {
     case $1 in
     "start")
-        start $2
+        start 
         ;;
     "restart")
-        restart $2
+        restart 
         ;;
     "stop")
-        stop $2
+        stop 
         ;;
     "clear")
-        clear $2
+        clear 
+        ;;
+    "delete")
+       delete 
         ;;
     *)
         echo "Unknown option"
