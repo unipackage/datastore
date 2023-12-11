@@ -6,7 +6,14 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rm -rf ./dist;npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "mocha  test/**/*.test.ts",
+    "readme": "npx readme-md-generator -p ./templates/readme.md",
+    "commit": "git-cz",
+    "release": "npm run build; git branch --show-current | grep -q '^main$' && release-it",
+    "contrib:init": "all-contributors init",
+    "contrib:add": "all-contributors add",
+    "contrib:check": "all-contributors check",
+    "contrib:gen": "all-contributors generate"
   },
   "repository": {
     "type": "git",
@@ -19,7 +26,7 @@
     "js"
   ],
   "author": "waynewyang",
-  "license": "MIT",
+  "license": "MIT and APACHE",
   "bugs": {
     "url": "https://github.com/unipackage/datastore/issues"
   },
@@ -30,8 +37,19 @@
     "mongoose": "^7.2.2"
   },
   "devDependencies": {
-    "jest": "^29.5.0",
-    "ts-jest": "^29.1.0",
+    "@babel/runtime": "^7.23.4",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@types/chai": "^4.3.11",
+    "@types/dotenv": "^8.2.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "20.6.2",
+    "all-contributors-cli": "^6.26.1",
+    "chai": "^4.3.10",
+    "git-cz": "^4.9.0",
+    "mocha": "^10.2.0",
+    "readme-md-generator": "^1.0.0",
+    "release-it": "^17.0.1",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
 }
