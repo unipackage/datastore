@@ -3,34 +3,37 @@ ACTION_NAME=${1}
 IMAGE_TYPE=${2}
 PORT=${3}
 
+HOSTDATAPATH="/var/tmp/containerdata"
+
 BASE_NAME="mongodb"
 CONTAINER_NAME="${BASE_NAME}_${IMAGE_TYPE}_container"
 IMAGE_NAME="${BASE_NAME}_${IMAGE_TYPE}_image"
 
-function clear() {
+clear() {
     stop 
     docker rm ${CONTAINER_NAME}
+    rm -rf "${HOSTDATAPATH}/*"
 }
 
-function delete() {
+delete() {
     echo $IMAGE_NAME
     docker rmi ${IMAGE_NAME}
 }
 
-function restart() {
+restart() {
     stop 
     start 
 }
 
-function start() {
+start() {
     docker start ${CONTAINER_NAME}
 }
 
-function stop() {
+stop() {
     docker stop ${CONTAINER_NAME}
 }
 
-function execute() {
+execute() {
     case $1 in
     "start")
         start 

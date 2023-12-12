@@ -26,7 +26,7 @@
     "posttest:auth": "npm run mongodb-auth:stop && npm run mongodb-auth:clear && npm run mongodb-auth:delete;",
     "pretest": "npm run pretest:anon && npm run pretest:auth;",
     "posttest": "npm run posttest:anon && npm run posttest:auth;",
-    "test": "npm run pretest && mocha  test/**/*.test.ts && npm run posttest",
+    "test": "npm run pretest &&tsc -p tsconfig.test.json; mocha && npm run posttest ",
     "readme": "npx readme-md-generator -p ./templates/readme.md",
     "commit": "git-cz",
     "release": "npm run build && git branch --show-current | grep -q '^main$' && release-it",
@@ -53,7 +53,7 @@
   "homepage": "https://github.com/unipackage/datastore#readme",
   "dependencies": {
     "@types/node": "20.6.2",
-    "@unipackage/utils": "^0.1.5",
+    "@unipackage/utils": "^0.1.8",
     "mongoose": "^7.2.2"
   },
   "devDependencies": {

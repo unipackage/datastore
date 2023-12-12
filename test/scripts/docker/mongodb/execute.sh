@@ -1,15 +1,16 @@
 #/bin/sh
-source ../common.sh
+. ../common.sh
 
-function build() {
-    docker build -t ${IMAGE_NAME} "../../../docker/mongodb/${IMAGE_TYPE}/"
+
+build() {
+    docker build  -t ${IMAGE_NAME} ../../../docker/mongodb/${IMAGE_TYPE}/
 }
 
-function run() {
-    docker run -d -p ${PORT}:27017 --name ${CONTAINER_NAME}  ${IMAGE_NAME}
+run() {
+    docker run -d -p ${PORT}:27017 --name ${CONTAINER_NAME} -v ${HOSTDATAPATH}:/data/db  ${IMAGE_NAME} 
 }
 
-function execute_action() {
+execute_action() {
     case ${ACTION_NAME} in
     "build")
         build 
