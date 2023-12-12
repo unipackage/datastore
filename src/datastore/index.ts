@@ -21,7 +21,7 @@
 import { Result } from "@unipackage/utils"
 import { equal } from "@unipackage/utils"
 import {
-    IDataStore,
+    IDataStoreEngine,
     QueryFilter,
     GetQueryConditionsByUniqueIndexes,
 } from "./interface"
@@ -32,8 +32,8 @@ export class DataStore<T extends Object, U> extends AbstractDatastore<T, U> {
      * Constructs a DataStore instance.
      * @param datastore - The IDataStore instance to be used.
      */
-    constructor(datastore: IDataStore<T, U>) {
-        super(datastore)
+    constructor(engine: IDataStoreEngine<T, U>) {
+        super(engine)
     }
 
     /**

@@ -1,5 +1,5 @@
 import { DataStore } from "../../../../src/datastore"
-import { MongooseDataStore } from "../../../../src/implements/mongo/datastore/MongooseDataStore"
+import { MongooseDataStore } from "../../../../src/engine/mongo/datastore/MongooseDataStore"
 import { Example } from "../types"
 import { ExampleModel, ExampleDocument } from "../model"
 

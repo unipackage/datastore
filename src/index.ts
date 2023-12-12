@@ -20,6 +20,7 @@
 
 export {
     IDataStore,
+    IDataStoreEngine,
     QueryCondition,
     QueryConditionOperators,
     QueryConditionValue,
@@ -37,5 +38,5 @@ export {
 export { AbstractDatastore } from "./datastore/abstract"
 export { DataStore } from "./datastore"
 
-export { Database, DatabaseOptions } from "./implements/mongo/database"
-export { MongooseDataStore } from "./implements/mongo/datastore/MongooseDataStore"
+export { Database, DatabaseOptions } from "./engine/mongo/database"
+export { MongooseDataStore } from "./engine/mongo/datastore/MongooseDataStore"

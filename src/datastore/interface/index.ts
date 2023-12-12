@@ -76,9 +76,9 @@ export interface QueryFilter<T> {
 }
 
 /**
- * Data store interface for handling CRUD operations.
+ * Data store engine interface for handling CRUD operations.
  */
-export interface IDataStore<T, U> {
+export interface IDataStoreEngine<T, U> {
     /**
      * Establishes a connection to the data store.
      * @returns A promise that resolves with a Result object.
@@ -134,7 +134,12 @@ export interface IDataStore<T, U> {
      * @returns A promise that resolves with a Result containing the unique indexes.
      */
     getUniqueIndexes?(): Promise<Result<(keyof T)[]>>
+}
 
+/**
+ * Data store interface for handling CRUD operations.
+ */
+export interface IDataStore<T, U> extends IDataStoreEngine<T, U> {
     /**
      * Creates or updates entities based on unique indexes in the data store.
      * @note implementation by basic class

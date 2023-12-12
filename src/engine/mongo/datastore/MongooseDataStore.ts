@@ -21,7 +21,7 @@
 import { Model, Document, FilterQuery, Connection } from "mongoose"
 import {
     QueryFilter,
-    IDataStore,
+    IDataStoreEngine,
     QueryConditionValue,
     SortOptions,
     FieldsOptions,
@@ -35,7 +35,7 @@ import { Result } from "@unipackage/utils"
  * @typeparam TDocument - Represents the Mongoose document type for the entity.
  */
 export class MongooseDataStore<T, TDocument extends T & Document>
-    implements IDataStore<T, TDocument>
+    implements IDataStoreEngine<T, TDocument>
 {
     private model: Model<TDocument>
     private database: Database
