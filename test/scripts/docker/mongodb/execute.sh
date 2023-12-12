@@ -7,6 +7,7 @@ build() {
 }
 
 run() {
+    mkdir -p ${HOSTDATAPATH}
     docker run -d -p ${PORT}:27017 --name ${CONTAINER_NAME} -v ${HOSTDATAPATH}:/data/db  ${IMAGE_NAME} 
 }
 

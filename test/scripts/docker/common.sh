@@ -2,8 +2,7 @@
 ACTION_NAME=${1}
 IMAGE_TYPE=${2}
 PORT=${3}
-
-HOSTDATAPATH="/var/tmp/containerdata"
+HOSTDATAPATH="/var/tmp/container-data-${IMAGE_TYPE}"
 
 BASE_NAME="mongodb"
 CONTAINER_NAME="${BASE_NAME}_${IMAGE_TYPE}_container"
@@ -12,7 +11,7 @@ IMAGE_NAME="${BASE_NAME}_${IMAGE_TYPE}_image"
 clear() {
     stop 
     docker rm ${CONTAINER_NAME}
-    rm -rf "${HOSTDATAPATH}/*"
+    rm -rf ${HOSTDATAPATH}
 }
 
 delete() {
