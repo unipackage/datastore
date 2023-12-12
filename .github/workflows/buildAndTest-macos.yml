@@ -39,6 +39,14 @@ jobs:
               run: |
                   npm run build
 
+            - name: Setup Before Test
+              run: |
+                  npm run test:setup
+
             - name: Test
               run: |
-                  npm run test
+                  npm run test:main
+
+            - name: Clean After Test
+              run: |
+                  npm run test:clean
