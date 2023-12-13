@@ -35,7 +35,6 @@ export interface DatabaseOptions extends ConnectOptions {
  * Singleton Database class for handling MongoDB connections.
  */
 export class Database {
-    private static instance: Database
     private conn: mongoose.Connection | null = null
     private options: DatabaseOptions
     private MONGODB_URI: string
@@ -45,25 +44,9 @@ export class Database {
      * @param uri - The MongoDB connection URI.
      * @param options - Optional database connection options.
      */
-    private constructor(uri: string, options?: DatabaseOptions | undefined) {
+    constructor(uri: string, options?: DatabaseOptions | undefined) {
         this.options = options ? options : {}
         this.MONGODB_URI = uri
-    }
-
-    /**
-     * Retrieves a singleton instance of the Database class.
-     * @param uri - The MongoDB connection URI.
-     * @param options - Optional database connection options.
-     * @returns The Database singleton instance.
-     */
-    public static getInstance(
-        uri: string,
-        options: DatabaseOptions | undefined
-    ): Database {
-        if (!Database.instance) {
-            Database.instance = new Database(uri, options)
-        }
-        return Database.instance
     }
 
     /**

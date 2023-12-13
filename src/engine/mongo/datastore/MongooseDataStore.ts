@@ -53,7 +53,7 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         options?: DatabaseOptions
     ) {
         this.model = model
-        this.database = Database.getInstance(uri, options)
+        this.database = new Database(uri, options)
     }
 
     /**

@@ -22,11 +22,16 @@ import { DataStore } from "../../../../src/datastore"
 import { MongooseDataStore } from "../../../../src/engine/mongo/datastore/MongooseDataStore"
 import { Example } from "../types"
 import { ExampleModel, ExampleDocument } from "../model"
+import { DatabaseOptions } from "../../../../src/engine/mongo/database"
 
 export class ExampleMongoDatastore extends DataStore<Example, ExampleDocument> {
-    constructor(uri: string) {
+    constructor(uri: string, options?: DatabaseOptions) {
         super(
-            new MongooseDataStore<Example, ExampleDocument>(ExampleModel, uri)
+            new MongooseDataStore<Example, ExampleDocument>(
+                ExampleModel,
+                uri,
+                options
+            )
         )
     }
 }

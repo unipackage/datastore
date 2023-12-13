@@ -23,3 +23,28 @@ import { ExampleMongoDatastore } from "../repo"
 export const exampleMongoDb = new ExampleMongoDatastore(
     "mongodb://127.0.0.1:27017/datastore"
 )
+export const exampleAuthMongoDb = new ExampleMongoDatastore(
+    "mongodb://127.0.0.1:27018/datastoreAuth",
+    {
+        user: "admin",
+        pass: "password",
+        dbName: "datastoreAuth",
+        authSource: "admin",
+        authMechanism: "SCRAM-SHA-256",
+        tlsAllowInvalidCertificates: true,
+        tlsAllowInvalidHostnames: true,
+    }
+)
+
+export const exampleWrongAuthMongoDb = new ExampleMongoDatastore(
+    "mongodb://127.0.0.1:27018/datastorWrongAuth",
+    {
+        user: "admin",
+        pass: "wrongpassword",
+        dbName: "datastoreAuth",
+        authSource: "admin",
+        authMechanism: "SCRAM-SHA-256",
+        tlsAllowInvalidCertificates: true,
+        tlsAllowInvalidHostnames: true,
+    }
+)
