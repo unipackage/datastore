@@ -14,6 +14,7 @@
     "skipLibCheck": true,
     "jsx": "react",
     "incremental": false,
+    "declarationMap": true,
   },
   "include": [
     "test/**/*"

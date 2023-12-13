@@ -12,6 +12,7 @@
     "isolatedModules": false,
     "jsx": "react",
     "incremental": false,
+    "declarationMap": true,
   },
   "include": [
     "src/**/*"
