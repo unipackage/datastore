@@ -1,5 +1,12 @@
 
 
+# [0.2.0](https://github.com/unipackage/datastore/compare/v0.1.5...v0.2.0) (2023-12-28)
+
+
+### Features
+
+* 🎸 upgrade utils to v1.4 ([c2f8a02](https://github.com/unipackage/datastore/commit/c2f8a02dea600c7277da9108d8c204f7e504cbcf))
+
 ## [0.1.5](https://github.com/unipackage/datastore/compare/v0.1.4...v0.1.5) (2023-12-14)
 
 
