@@ -1,5 +1,12 @@
 
 
+# [0.3.0](https://github.com/unipackage/datastore/compare/v0.2.0...v0.3.0) (2024-01-04)
+
+
+### Features
+
+* 🎸 the same url shared the same one connection ([5a20a35](https://github.com/unipackage/datastore/commit/5a20a35c6409357e98092b90fa1878cc6d9e3322))
+
 # [0.2.0](https://github.com/unipackage/datastore/compare/v0.1.5...v0.2.0) (2023-12-28)
 
 
