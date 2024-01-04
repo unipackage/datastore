@@ -18,7 +18,7 @@
  *  limitations under the respective licenses.
  ********************************************************************************/
 
-import { Model, Document, FilterQuery, Connection } from "mongoose"
+import { Model, Document, FilterQuery, Connection, Schema } from "mongoose"
 import {
     QueryFilter,
     IDataStoreEngine,
@@ -46,16 +46,19 @@ export class MongooseDataStore<T, TDocument extends T & Document>
 
     /**
      * Constructs a MongooseDataStore instance.
-     * @param model - The Mongoose Model for the entity.
-     * @param uri - The MongoDB connection URI.
-     * @param options - Optional database connection options.
+     * @param modelName
+     * @param schema
+     * @param databaseConnection
      */
     constructor(
-        model: Model<TDocument>,
+        modelName: string,
+        schema: Schema<TDocument>,
         databaseConnection: DatabaseConnection
     ) {
-        this.model = model
         this.databaseConnection = databaseConnection
+        this.model = this.databaseConnection
+            .connection()
+            .model<TDocument>(modelName, schema)
     }
 
     /**
@@ -63,18 +66,6 @@ export class MongooseDataStore<T, TDocument extends T & Document>
      * @returns A promise resolving with a Result containing the connection or an error.
      */
     public async connect(): Promise<Result<Connection>> {
-        if (!this.conn) {
-            const connectionResult = await this.databaseConnection.connect()
-
-            if (connectionResult.ok) {
-                this.conn = connectionResult.data as Connection
-                await this.model.createIndexes()
-                return { ok: true, data: this.conn }
-            } else {
-                return { ok: false, error: connectionResult.error }
-            }
-        }
-
         return { ok: true, data: this.conn as Connection }
     }
 

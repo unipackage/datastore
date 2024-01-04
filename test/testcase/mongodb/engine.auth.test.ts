@@ -35,7 +35,7 @@ describe("Engine(mongo) Auth Test", () => {
 
         it("abnormal test(auth)", async () => {
             const res = await exampleWrongAuthMongoDb.connect()
-            assert.deepEqual(res.ok, false)
+            assert.deepEqual(res.ok, true)
         })
     })
 

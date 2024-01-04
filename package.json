@@ -26,7 +26,7 @@
     "pretest:auth": "(npm run mongodb-auth:build & pid=$! && wait $pid )  && (npm run mongodb-auth:run  & pid=$! && wait $pid ) && npm run mongodb-auth:restart;",
     "posttest:auth": "npm run mongodb-auth:stop && npm run mongodb-auth:clear && npm run mongodb-auth:delete;",
     "test:setup": "npm run pretest:anon && npm run pretest:auth;",
-    "test:main": "npm run build:test; mocha ",
+    "test:main": "npm run build:test; mocha --exit",
     "test:clean": "npm run posttest:anon && npm run posttest:auth;",
     "test": "npm run test:clean; npm run test:setup; npm run test:main;",
     "readme": "npx readme-md-generator -p ./templates/readme.md",

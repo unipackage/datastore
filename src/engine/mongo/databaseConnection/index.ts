@@ -19,7 +19,6 @@
  ********************************************************************************/
 
 import mongoose, { ConnectOptions } from "mongoose"
-import { Result } from "@unipackage/utils"
 
 /**
  * Database connection options.
@@ -75,19 +74,18 @@ export class DatabaseConnection {
      * Establishes a connection to the MongoDB database.
      * @returns A promise resolving with the mongoose Connection object or an error Result.
      */
-    public async connect(): Promise<Result<mongoose.Connection>> {
+    public connection(): mongoose.Connection {
         if (this.conn) {
-            return { ok: true, data: this.conn }
+            return this.conn
         }
 
         try {
-            const mongooseInstance = await mongoose.connect(this.MONGODB_URI!, {
+            this.conn = mongoose.createConnection(this.MONGODB_URI!, {
                 ...this.options,
             })
-            this.conn = mongooseInstance.connection
-            return { ok: true, data: this.conn }
-        } catch (error) {
-            return { ok: false, error }
+            return this.conn
+        } catch (error: any) {
+            throw new Error(error)
         }
     }
 
@@ -95,15 +93,14 @@ export class DatabaseConnection {
      * Closes the connection to the MongoDB database.
      * @returns A promise resolving with a Result indicating the success or failure of the operation.
      */
-    public async disconnect(): Promise<Result<void>> {
+    public async disconnect() {
         try {
             if (this.conn) {
                 await this.conn.close()
                 this.conn = null
             }
-            return { ok: true }
-        } catch (error) {
-            return { ok: false, error }
+        } catch (error: any) {
+            throw new Error(error)
         }
     }
 }

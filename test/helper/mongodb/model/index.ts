@@ -18,7 +18,7 @@
  *  limitations under the respective licenses.
  ********************************************************************************/
 
-import mongoose, { Schema, Document } from "mongoose"
+import { Schema, Document } from "mongoose"
 import { Example } from "../types"
 
 interface ExampleDocument extends Example, Document {}
@@ -44,9 +44,5 @@ const ExampleSchema = new Schema<ExampleDocument>({
     },
 })
 
-const ExampleModel =
-    mongoose.models.Example ||
-    mongoose.model<ExampleDocument>("Example", ExampleSchema)
-
-export { ExampleModel }
+export { ExampleSchema }
 export type { ExampleDocument }
