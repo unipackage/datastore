@@ -26,13 +26,12 @@ import {
     SortOptions,
     FieldsOptions,
 } from "../../../datastore/interface"
-import { Database, DatabaseOptions } from "../database/index"
+import {
+    DatabaseConnection,
+    DatabaseConnectionOptions,
+} from "../databaseConnection/index"
 import { Result } from "@unipackage/utils"
 
-/*
- * different url -> different Database
- */
-const g_datastore_databaseInstances: { [key: string]: Database } = {}
 /**
  * MongooseDataStore class implementing the IDataStore interface for MongoDB operations using Mongoose.
  * @typeparam T - Represents the type of the entity.
@@ -42,7 +41,7 @@ export class MongooseDataStore<T, TDocument extends T & Document>
     implements IDataStoreEngine<T, TDocument>
 {
     private model: Model<TDocument>
-    private database: Database
+    private databaseConnection: DatabaseConnection
     private conn: Connection | null = null
 
     /**
@@ -53,14 +52,10 @@ export class MongooseDataStore<T, TDocument extends T & Document>
      */
     constructor(
         model: Model<TDocument>,
-        uri: string,
-        options?: DatabaseOptions
+        databaseConnection: DatabaseConnection
     ) {
         this.model = model
-        if (!g_datastore_databaseInstances[uri]) {
-            g_datastore_databaseInstances[uri] = new Database(uri, options)
-        }
-        this.database = g_datastore_databaseInstances[uri]
+        this.databaseConnection = databaseConnection
     }
 
     /**
@@ -69,7 +64,7 @@ export class MongooseDataStore<T, TDocument extends T & Document>
      */
     public async connect(): Promise<Result<Connection>> {
         if (!this.conn) {
-            const connectionResult = await this.database.connect()
+            const connectionResult = await this.databaseConnection.connect()
 
             if (connectionResult.ok) {
                 this.conn = connectionResult.data as Connection
@@ -90,7 +85,7 @@ export class MongooseDataStore<T, TDocument extends T & Document>
     public async disconnect(): Promise<Result<void>> {
         try {
             if (this.conn) {
-                await this.database.disconnect()
+                await this.databaseConnection.disconnect()
                 this.conn = null
             }
             return { ok: true }

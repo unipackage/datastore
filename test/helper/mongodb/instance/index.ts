@@ -18,12 +18,13 @@
  *  limitations under the respective licenses.
  ********************************************************************************/
 
+import { DatabaseConnection } from "../../../../src/engine/mongo/databaseConnection"
 import { ExampleMongoDatastore } from "../repo"
 
-export const exampleMongoDb = new ExampleMongoDatastore(
+const database_noAuth = DatabaseConnection.getInstance(
     "mongodb://127.0.0.1:27017/datastore"
 )
-export const exampleAuthMongoDb = new ExampleMongoDatastore(
+const database_auth = DatabaseConnection.getInstance(
     "mongodb://127.0.0.1:27018/datastoreAuth",
     {
         user: "admin",
@@ -36,7 +37,7 @@ export const exampleAuthMongoDb = new ExampleMongoDatastore(
     }
 )
 
-export const exampleWrongAuthMongoDb = new ExampleMongoDatastore(
+const database_wrongAuth = DatabaseConnection.getInstance(
     "mongodb://127.0.0.1:27018/datastorWrongAuth",
     {
         user: "admin",
@@ -47,4 +48,10 @@ export const exampleWrongAuthMongoDb = new ExampleMongoDatastore(
         tlsAllowInvalidCertificates: true,
         tlsAllowInvalidHostnames: true,
     }
+)
+
+export const exampleMongoDb = new ExampleMongoDatastore(database_noAuth)
+export const exampleAuthMongoDb = new ExampleMongoDatastore(database_auth)
+export const exampleWrongAuthMongoDb = new ExampleMongoDatastore(
+    database_wrongAuth
 )

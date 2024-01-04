@@ -24,7 +24,7 @@ import { Result } from "@unipackage/utils"
 /**
  * Database connection options.
  */
-export interface DatabaseOptions extends ConnectOptions {
+export interface DatabaseConnectionOptions extends ConnectOptions {
     bufferCommands?: boolean
     autoIndex?: boolean
     useNewUrlParser?: boolean
@@ -34,9 +34,10 @@ export interface DatabaseOptions extends ConnectOptions {
 /**
  * Singleton Database class for handling MongoDB connections.
  */
-export class Database {
+export class DatabaseConnection {
+    private static instances: { [key: string]: DatabaseConnection } = {}
     private conn: mongoose.Connection | null = null
-    private options: DatabaseOptions
+    private options: DatabaseConnectionOptions
     private MONGODB_URI: string
 
     /**
@@ -44,9 +45,30 @@ export class Database {
      * @param uri - The MongoDB connection URI.
      * @param options - Optional database connection options.
      */
-    constructor(uri: string, options?: DatabaseOptions | undefined) {
+    private constructor(
+        uri: string,
+        options?: DatabaseConnectionOptions | undefined
+    ) {
         this.options = options ? options : {}
         this.MONGODB_URI = uri
+    }
+
+    /**
+     * Get a Database instance.
+     * @param uri - The MongoDB connection URI.
+     * @param options - Optional database connection options.
+     */
+    public static getInstance(
+        uri: string,
+        options?: DatabaseConnectionOptions
+    ): DatabaseConnection {
+        if (!DatabaseConnection.instances[uri]) {
+            DatabaseConnection.instances[uri] = new DatabaseConnection(
+                uri,
+                options
+            )
+        }
+        return DatabaseConnection.instances[uri]
     }
 
     /**

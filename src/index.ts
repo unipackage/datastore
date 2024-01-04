@@ -38,5 +38,8 @@ export {
 export { AbstractDatastore } from "./datastore/abstract"
 export { DataStore } from "./datastore"
 
-export { Database, DatabaseOptions } from "./engine/mongo/database"
+export {
+    DatabaseConnection,
+    DatabaseConnectionOptions,
+} from "./engine/mongo/databaseConnection"
 export { MongooseDataStore } from "./engine/mongo/datastore/MongooseDataStore"
