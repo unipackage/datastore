@@ -1,5 +1,17 @@
 
 
+# [2.0.0](https://github.com/unipackage/datastore/compare/v1.0.0...v2.0.0) (2024-01-04)
+
+
+### Features
+
+* 🎸 change mongo constructor ([bbb6b20](https://github.com/unipackage/datastore/commit/bbb6b20ab94c131dca4c8d07c4fa0fe904af5a42))
+
+
+### BREAKING CHANGES
+
+* 🧨 change mongo constructor with(modelname,schema,connection)
+
 # [1.0.0](https://github.com/unipackage/datastore/compare/v0.3.0...v1.0.0) (2024-01-04)
 
 
