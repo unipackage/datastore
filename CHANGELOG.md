@@ -1,5 +1,17 @@
 
 
+# [1.0.0](https://github.com/unipackage/datastore/compare/v0.3.0...v1.0.0) (2024-01-04)
+
+
+### Features
+
+* 🎸 re-design the mongodatastore constrction ([0990d82](https://github.com/unipackage/datastore/commit/0990d821153fee73d64742646fbfdfb84ff17261))
+
+
+### BREAKING CHANGES
+
+* 🧨 change MongooseDataStore constructor: url/option=>databaseConnection
+
 # [0.3.0](https://github.com/unipackage/datastore/compare/v0.2.0...v0.3.0) (2024-01-04)
 
 
