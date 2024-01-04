@@ -29,6 +29,10 @@ import {
 import { Database, DatabaseOptions } from "../database/index"
 import { Result } from "@unipackage/utils"
 
+/*
+ * different url -> different Database
+ */
+const g_datastore_databaseInstances: { [key: string]: Database } = {}
 /**
  * MongooseDataStore class implementing the IDataStore interface for MongoDB operations using Mongoose.
  * @typeparam T - Represents the type of the entity.
@@ -53,7 +57,10 @@ export class MongooseDataStore<T, TDocument extends T & Document>
         options?: DatabaseOptions
     ) {
         this.model = model
-        this.database = new Database(uri, options)
+        if (!g_datastore_databaseInstances[uri]) {
+            g_datastore_databaseInstances[uri] = new Database(uri, options)
+        }
+        this.database = g_datastore_databaseInstances[uri]
     }
 
     /**
