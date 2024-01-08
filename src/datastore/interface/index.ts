@@ -92,6 +92,13 @@ export interface IDataStoreEngine<T, U> {
     disconnect(): Promise<Result<void>>
 
     /**
+     * Total entities in the data store based on the provided query filter.
+     * @param queryFilter - The query filter used for finding entities.
+     * @returns A promise that resolves with a Result containing the found entities.
+     */
+    total(queryFilter?: QueryFilter<T>): Promise<Result<number>>
+
+    /**
      * Finds entities in the data store based on the provided query filter.
      * @param queryFilter - The query filter used for finding entities.
      * @returns A promise that resolves with a Result containing the found entities.

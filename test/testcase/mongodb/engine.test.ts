@@ -76,12 +76,28 @@ describe("Engine(mongo) Test", () => {
         })
     })
 
-    describe("Find test", () => {
+    describe("Find and Total test", () => {
         it("normal test", async () => {
+            const beforeCount = await exampleMongoDb.total({})
+            assert.deepEqual(beforeCount.ok, true)
+
             const resCreate = await exampleMongoDb.create(
                 generateExpample(3, "3", true)
             )
             assert.deepEqual(resCreate.ok, true)
+
+            const spcialCount = await exampleMongoDb.total({
+                conditions: [{ numberElement: 1 }],
+            })
+            assert.deepEqual(spcialCount.ok, true)
+            assert.deepEqual(spcialCount.data, 1)
+
+            const afterCount = await exampleMongoDb.total({})
+            assert.deepEqual(afterCount.ok, true)
+            assert.deepEqual(
+                afterCount.data,
+                beforeCount.data! + spcialCount.data!
+            )
 
             const resNotExsit = await exampleMongoDb.find({
                 conditions: [{ numberElement: 0 }],

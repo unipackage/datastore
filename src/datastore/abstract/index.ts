@@ -53,6 +53,15 @@ export abstract class AbstractDatastore<T, U> implements IDataStore<T, U> {
     }
 
     /**
+     * Total entities in the data store based on the provided query filter.
+     * @param queryFilter - The query filter used for finding entities.
+     * @returns A promise that resolves with a Result containing the found entities.
+     */
+    public async total(queryFilter?: QueryFilter<T>): Promise<Result<number>> {
+        return await this.engine.total(queryFilter)
+    }
+
+    /**
      * Finds entities in the data store based on the provided query filter.
      * @param queryFilter - The query filter used for finding entities.
      * @returns A promise that resolves with a Result containing the found entities.
