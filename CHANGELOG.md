@@ -1,5 +1,12 @@
 
 
+# [2.1.0](https://github.com/unipackage/datastore/compare/v2.0.0...v2.1.0) (2024-01-08)
+
+
+### Features
+
+* 🎸 add total function ([0c93132](https://github.com/unipackage/datastore/commit/0c931326043dc9f580cd134165683d05923e202c))
+
 # [2.0.0](https://github.com/unipackage/datastore/compare/v1.0.0...v2.0.0) (2024-01-04)
 
 
